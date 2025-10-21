@@ -1,6 +1,7 @@
 import requests
 import json
 import os
+import webbrowser
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -17,11 +18,11 @@ user_profile = {
 # Custom responses with multiple options based on user type
 custom_responses = {
     "what is your name": {
-        "general": "I am DeepSeek AI, your helpful assistant.",
-        "beginner": "Hi! I'm DeepSeek AI, your friendly AI helper. I'm here to make things simple for you!",
-        "expert": "I am DeepSeek AI, an advanced language model designed for complex problem-solving and analysis.",
-        "student": "Hello! I'm DeepSeek AI, your study buddy. I can help you learn and understand concepts better.",
-        "professional": "I am DeepSeek AI, your professional AI assistant for business and technical tasks."
+        "general": "I am alpha AI, your helpful assistant.",
+        "beginner": "Hi! I'm alpha AI, your friendly AI helper. I'm here to make things simple for you!",
+        "expert": "I am alpha AI, an advanced language model designed for complex problem-solving and analysis.",
+        "student": "Hello! I'm alpha AI, your study buddy. I can help you learn and understand concepts better.",
+        "professional": "I am alpha AI, your professional AI assistant for business and technical tasks."
     },
     "what is python": {
         "general": "Python is a high-level programming language known for its simplicity and readability.",
@@ -128,7 +129,7 @@ def get_custom_response(question):
     return None
 
 # Interactive chat loop
-print("Alpha AI Chat - Type 'quit' to exit | Type 'ChAnGe' to set API key | Type 'TeAcH' to add custom responses | Type 'PrOfIlE' to set user type")
+print("Alpha AI Chat - Type 'quit' to exit | Type 'ChAnGe' to set API key | Type 'TeAcH' to add custom responses | Type 'PrOfIlE' to set user type | Type 'WeAtHeR' for weather")
 print("-" * 40)
 
 while True:
@@ -194,6 +195,33 @@ while True:
             print(f"User type set to: {new_type}")
         else:
             print("Invalid user type.")
+        continue
+    
+    if question == 'WeAtHeR':
+        city = input("Enter city name: ").strip()
+        if city:
+            # Open weather website for the city
+            weather_url = f"https://www.google.com/search?q=weather+{city.replace(' ', '+')}"
+            try:
+                webbrowser.open(weather_url)
+                print(f"Alpha: Opening weather information for {city} in your browser...")
+            except Exception as e:
+                print(f"Alpha: Could not open browser. Please visit: {weather_url}")
+        else:
+            print("Alpha: No city provided.")
+        continue
+    
+    if question.startswith('weather in '):
+        city = question[len('weather in '):].strip()
+        if city:
+            weather_url = f"https://www.google.com/search?q=weather+{city.replace(' ', '+')}"
+            try:
+                webbrowser.open(weather_url)
+                print(f"Alpha: Opening weather information for {city} in your browser...")
+            except Exception as e:
+                print(f"Alpha: Could not open browser. Please visit: {weather_url}")
+        else:
+            print("Alpha: Please specify a city, e.g., weather in London")
         continue
     
     if not question:
